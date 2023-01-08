@@ -1,0 +1,31 @@
+@use '../styles/variables';
+
+.mainNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+
+  a {
+    font-weight: bold;
+    color: variables.$color-text;
+  }
+}
+
+.mainNavLogo {
+  display: flex;
+  align-items: center;
+}
+
+.mainNavLogoImage {
+  width: 200px;
+}
+
+.mainNavItem {
+  text-decoration: none;
+  margin-right: 0.5rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
