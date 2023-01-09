@@ -1,0 +1,14 @@
+@use '../styles/variables';
+
+.header {
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.editButton {
+  border-color: variables.$color-primary;
+  background-color: variables.$color-primary;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+}

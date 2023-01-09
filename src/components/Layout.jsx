@@ -4,15 +4,11 @@ import Header from './Header';
 
 function Layout() {
   return (
-    <>
+    <div className="layoutWrapper">
       <Header />
-
-      <main>
-        <Outlet />
-      </main>
-
+      <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }
 
