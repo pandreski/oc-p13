@@ -6,6 +6,7 @@
   width: 300px;
   margin: 0 auto;
   margin-top: 3rem;
+  margin-bottom: 3rem;
   padding: 2rem;
 }
 
@@ -53,4 +54,10 @@
   background-color: variables.$color-primary;
   color: #fff;
   cursor: pointer;
+}
+
+.errorMessage {
+  color: red;
+  font-weight: bold;
+  margin: 1em 0;
 }
