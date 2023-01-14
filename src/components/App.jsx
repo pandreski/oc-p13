@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Dashboard from '../pages/Dashboard';
 import Error404 from '../pages/Error404';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import { userLoggedInSelect } from '../utils/selectors';
 import Layout from './Layout';
 
 export default function App() {
@@ -12,7 +15,9 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={
+          <RequireAuth>
             <Dashboard />
+          </RequireAuth>
         } />
         <Route path='*' element={<Error404 />} />
       </Route>
@@ -20,18 +25,21 @@ export default function App() {
   )
 }
 
-// function RequireAuth({ children }) {
-//   let auth = useAuth();
-//   // const useSelector = 
-//   const location = useLocation();
+function RequireAuth({ children }) {
+  const isAuthenticated = useSelector(userLoggedInSelect) || localStorage.getItem('jwtToken');
+  const location = useLocation();
 
-//   if (!auth.user) {
-//     // Redirect them to the /login page, but save the current location they were
-//     // trying to go to when they were redirected. This allows us to send them
-//     // along to that page after they login, which is a nicer user experience
-//     // than dropping them off on the home page.
-//     return <Navigate to="/login" state={{ from: location }} replace />;
-//   }
+  if (!isAuthenticated) {
+    // Redirect them to the /login page, but save the current location they were
+    // trying to go to when they were redirected. This allows us to send them
+    // along to that page after they login, which is a nicer user experience
+    // than dropping them off on the home page.
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
-//   return children;
-// }
+  return children;
+}
+
+RequireAuth.propTypes = {
+  children: PropTypes.node.isRequired,
+};

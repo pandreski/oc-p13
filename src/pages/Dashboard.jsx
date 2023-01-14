@@ -1,6 +1,9 @@
 import AccountBalance from '../components/AccountBalance';
 import { v4 as uuidv4 } from 'uuid';
 import style from './Dashboard.module.scss';
+import { useSelector } from 'react-redux';
+import { userFirstNameSelect, userLastNameSelect } from '../utils/selectors';
+import { useApiUserInfos } from '../hooks/useApi';
 
 function Dashboard() {
   const accounts = [
@@ -21,10 +24,17 @@ function Dashboard() {
     },
   ];
 
+  useApiUserInfos();
+  const userFirstName = useSelector(userFirstNameSelect);
+  const userLastName = useSelector(userLastNameSelect);
+
   return (
     <main className="main bg-dark">
       <div className={style.header}>
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>
+          Welcome back<br />
+          {userFirstName} {userLastName}!
+        </h1>
         <button className={style.editButton}>Edit Name</button>
       </div>
       <h2 className="sr-only">Accounts</h2>

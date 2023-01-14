@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useApiAuth } from '../hooks/useApi';
-import { errorMessageSelect, isErrorSelect, isLoading } from '../utils/selectors';
+import { errorMessageSelect, isErrorSelect, isLoadingSelect, userLoggedInSelect } from '../utils/selectors';
 import Loader from './Loader';
 import style from './LoginForm.module.scss';
 
@@ -10,9 +11,12 @@ function LoginForm() {
   const [credentials, setCredentials] = useState({});
   const isError = useSelector(isErrorSelect);
   const errorMessage = useSelector(errorMessageSelect);
-  const isLoadingAuth = useSelector(isLoading);
+  const isLoadingAuth = useSelector(isLoadingSelect);
+  const isAuthenticated = useSelector(userLoggedInSelect);
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/profile";
 
-  useApiAuth(credentials.email, credentials.password);
+  useApiAuth(credentials.email, credentials.password, credentials.persistent);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,9 +24,16 @@ function LoginForm() {
 
     setCredentials({
       email: formData.get('email'),
-      password: formData.get('password')
+      password: formData.get('password'),
+      persistent: formData.get('persistent'),
     });
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
   return (
     <section className={style.signInContent}>
@@ -43,7 +54,7 @@ function LoginForm() {
           <input type="password" name='password' id="password" required />
         </div>
         <div className={style.inputRemember}>
-          <input type="checkbox" id="remember-me" />
+          <input type="checkbox" name="persistent" id="remember-me" />
           <label htmlFor="remember-me">Remember me</label>
         </div>
         {

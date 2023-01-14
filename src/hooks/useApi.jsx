@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { loginFailed, loginPending, loginSuccess } from '../features/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginFailed, loginPending, loginSuccess, updateUserData } from '../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { tokenSelect } from '../utils/selectors';
 
 /**
  * The API URL.
@@ -13,7 +15,7 @@ const instance = axios.create({
   baseURL: apiUrl,
 });
 
-export function useApiAuth(email, password) {
+export function useApiAuth(email, password, isPersistent) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,14 +30,12 @@ export function useApiAuth(email, password) {
         const token = await auth.data.body.token;
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        const userInfos = await instance.post('/user/profile');
+        // Store token in localStorage if "Remember me" box is checked.
+        if (isPersistent) {
+          localStorage.setItem('jwtToken', token);
+        }
 
-        dispatch(loginSuccess({
-          token,
-          userFirstName: userInfos.data.body.firstName,
-          userLastName: userInfos.data.body.lastName,
-          userEmail: userInfos.data.body.email,
-        }));
+        dispatch(loginSuccess(token));
       } catch (error) {
         console.error(error);
         dispatch(loginFailed(error.response.data.message));
@@ -44,32 +44,33 @@ export function useApiAuth(email, password) {
 
     dispatch(loginPending());
     getData();
-  }, [dispatch, email, password]);
+  }, [dispatch, email, password, isPersistent]);
 }
 
-// export function useApiUserInfos() {
-//   const dispatch = useDispatch();
-//   const token = useSelector(getToken);
+export function useApiUserInfos() {
+  const stateToken = useSelector(tokenSelect);
+  const token = localStorage.getItem('jwtToken') || stateToken;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-//   useEffect(() => {
-//     if (!token.length) return;
+  instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-//     async function getData() {
-//       try {
-//         // S'assurer que le token setté au login est toujours dans l'instance axios à ce moment là...
-//         const res = await instance.post('/user/profile');
-//         console.log(res);
+  useEffect(() => {
+    async function getData() {
+      try {
+        const userInfos = await instance.post('/user/profile');
+        dispatch(updateUserData({
+          userFirstName: userInfos.data.body.firstName,
+          userLastName: userInfos.data.body.lastName,
+          userEmail: userInfos.data.body.email,
+        }))
+      } catch (error) {
+        console.log(error.message);
+        localStorage.removeItem('jwtToken');
+        navigate('/login');
+      }
+    }
 
-//         dispatch(updateUserInfo({
-//           userFirstName: res.data.body.firstName,
-//           userLastName: res.data.body.lastName,
-//           userEmail: res.data.body.email,
-//         }));
-//       } catch (error) {
-//         dispatch(loginFailed(error.response.data.message));
-//       }
-//     }
-
-//     getData();
-//   }, [dispatch, token])
-// }
+    getData();
+  }, [token, navigate, dispatch]);
+}
