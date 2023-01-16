@@ -1,0 +1,22 @@
+{
+  "1": {
+    "id": "1",
+    "label": "Entertainment"
+  },
+  "2": {
+    "id": "2",
+    "label": "Food"
+  },
+  "3": {
+    "id": "3",
+    "label": "Insurance"
+  },
+  "4": {
+    "id": "4",
+    "label": "Pharmacy"
+  },
+  "5": {
+    "id": "5",
+    "label": "Saving"
+  }
+}

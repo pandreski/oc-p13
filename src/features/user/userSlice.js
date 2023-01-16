@@ -36,15 +36,19 @@ export const userSlice = createSlice({
         email: '',
       };
     },
+    setAuth: (state) => {
+      state.isAuthenticated = true;
+    },
+    updateEmail: (state, action) => {
+      state.user.email = action.payload;
+    },
     updateUserData: (state, action) => {
-      state.isAuthenticated = true,
       state.user.firstName = action.payload.userFirstName;
       state.user.lastName = action.payload.userLastName;
-      state.user.email = action.payload.userEmail;
     },
   },
 });
 
-export const { loginPending, loginSuccess, loginFailed, logout, updateUserData } = userSlice.actions;
+export const { loginPending, loginSuccess, loginFailed, logout, updateUserData, setAuth, updateEmail } = userSlice.actions;
 
 export default userSlice.reducer;

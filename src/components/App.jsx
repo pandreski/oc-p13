@@ -7,6 +7,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import { userLoggedInSelect } from '../utils/selectors';
 import Layout from './Layout';
+import Account from '../pages/Account';
 
 export default function App() {
   return (
@@ -17,6 +18,11 @@ export default function App() {
         <Route path='/profile' element={
           <RequireAuth>
             <Dashboard />
+          </RequireAuth>
+        } />
+        <Route path='/account/:id' element={
+          <RequireAuth>
+            <Account />
           </RequireAuth>
         } />
         <Route path='*' element={<Error404 />} />

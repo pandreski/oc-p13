@@ -1,0 +1,90 @@
+{
+  "1": {
+    "id": "58VCYn6JkD",
+    "account": "1",
+    "description": "Golden Sun Bakery",
+    "amount": "5.00",
+    "balance": "2,082.79",
+    "date": "1673874781",
+    "type": "Electronic",
+    "category": "2",
+    "notes": ""
+  },
+  "2": {
+    "id": "x0MHZa74FU",
+    "account": "1",
+    "description": "Golden Sun Bakery",
+    "amount": "10.00",
+    "balance": "2,087.79",
+    "date": "1673788381",
+    "type": "Electronic",
+    "category": "2",
+    "notes": ""
+  },
+  "3": {
+    "id": "U9evm9S7L0",
+    "account": "1",
+    "description": "Golden Sun Bakery",
+    "amount": "20.00",
+    "balance": "2,097.79",
+    "date": "1673615581",
+    "type": "Electronic",
+    "category": "2",
+    "notes": ""
+  },
+  "4": {
+    "id": "2cWUKsh9V7",
+    "account": "2",
+    "description": "Wire transfer",
+    "amount": "50.00",
+    "balance": "10,928.42",
+    "date": "1673701981",
+    "type": "Electronic",
+    "category": "5",
+    "notes": "Paul's refund"
+  },
+  "5": {
+    "id": "w12TOM8jdj",
+    "account": "2",
+    "description": "Wire transfer",
+    "amount": "100.00",
+    "balance": "10,878.42",
+    "date": "1673183581",
+    "type": "Electronic",
+    "category": "5",
+    "notes": "Christmas gifts"
+  },
+  "6": {
+    "id": "BjUB49V84l",
+    "account": "3",
+    "description": "Gutmann Group",
+    "amount": "25.00",
+    "balance": "184.30",
+    "date": "1673788381",
+    "type": "Electronic",
+    "category": "3",
+    "notes": ""
+  },
+  "7": {
+    "id": "009dnS4ctz",
+    "account": "3",
+    "description": "Adams PLC",
+    "amount": "75.00",
+    "balance": "159.30",
+    "date": "1673097181",
+    "type": "Electronic",
+    "category": "1",
+    "notes": ""
+  },
+  "8": {
+    "id": "6aZ4W699Gj",
+    "account": "3",
+    "description": "Hyatt Manhattan",
+    "amount": "84.30",
+    "balance": "84.30",
+    "date": "1672924381",
+    "type": "Electronic",
+    "category": "2",
+    "notes": "Team lunch"
+  }
+}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginFailed, loginPending, loginSuccess, updateUserData } from '../features/user/userSlice';
+import { loginFailed, loginPending, loginSuccess, setAuth, updateEmail, updateUserData } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { tokenSelect } from '../utils/selectors';
 
@@ -62,8 +62,9 @@ export function useApiUserInfos() {
         dispatch(updateUserData({
           userFirstName: userInfos.data.body.firstName,
           userLastName: userInfos.data.body.lastName,
-          userEmail: userInfos.data.body.email,
-        }))
+        }));
+        dispatch(updateEmail(userInfos.data.body.email));
+        dispatch(setAuth());
       } catch (error) {
         console.log(error.message);
         localStorage.removeItem('jwtToken');
@@ -73,4 +74,28 @@ export function useApiUserInfos() {
 
     getData();
   }, [token, navigate, dispatch]);
+}
+
+export function useApiUpdateData(firstName, lastName) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function setData() {
+      if (!firstName || !lastName) return;
+      try {
+        await instance.put('/user/profile', {
+          firstName,
+          lastName,
+        });
+        dispatch(updateUserData({
+          userFirstName: firstName,
+          userLastName: lastName,
+        }))
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    setData();
+  }, [firstName, lastName, dispatch]);
 }
