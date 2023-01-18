@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useApiCategories } from '../../hooks/useApi';
 import style from './Collapse.module.scss';
 
 function Collapse() {
   const [editCategory, setEditCategory] = useState(false);
   const [editNotes, setEditNotes] = useState(false);
   const [isOpen, setOpen] = useState(false);
+  const [currentCategory, setCategory] = useState("2"); // TODO: make it dynamic
+  const [currentCategoryLabel, setCategoryLabel] = useState('');
+  const categories = useApiCategories();
 
   const handleClick = () => {
     setOpen(!isOpen);
 
+    // Close also edition state for category and notes
     if (!isOpen) {
       setEditCategory(false);
       setEditNotes(false);
@@ -20,9 +25,26 @@ function Collapse() {
     setEditCategory(!editCategory);
   }
 
+  const handleChangeCategory = (e) => {
+    e.preventDefault();
+    setCategory(e.target.value);
+  }
+
+  const handleSubmitCategory = (e) => {
+    e.preventDefault();
+    handleCategory();
+  }
+
   const handleNotes = () => {
     setEditNotes(!editNotes);
   }
+
+  useEffect(() => {
+    if (!categories.length) return;
+
+    const { label } = categories.find((elem) => elem.id === currentCategory);
+    setCategoryLabel(label);
+  }, [currentCategory, categories])
 
   return (
     <div className={style.wrapper}>
@@ -39,18 +61,29 @@ function Collapse() {
             <div>Category: </div>
             {
               editCategory ? (
-                <div>
-                  <select name="catSelect" id={`catSelect-${uuidv4()}`}>
-                    <option value="1">Opt 1</option>
-                    <option value="2">Opt 2</option>
-                    <option value="3">Opt 3</option>
-                    <option value="4">Opt 4</option>
+                <form onSubmit={handleSubmitCategory}>
+                  <select
+                    name="catSelect"
+                    id={`catSelect-${uuidv4()}`}
+                    value={currentCategory}
+                    onChange={handleChangeCategory}
+                  >
+                    {
+                      categories.map((cat) => (
+                        <option
+                          key={uuidv4()}
+                          value={cat.id}
+                        >
+                          {cat.label}
+                        </option>
+                      ))
+                    }
                   </select>
-                  <button className={style.edit} onClick={handleCategory}><i className='fa fa-check-square-o'></i></button>
-                </div>
+                  <button className={style.edit} type='submit'><i className='fa fa-check-square-o'></i></button>
+                </form>
               ) : (
                 <div>
-                  Food
+                  {currentCategoryLabel}
                   <button className={style.edit} onClick={handleCategory}><i className='fa fa-pencil'></i></button>
                 </div>
               )

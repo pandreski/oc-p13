@@ -7,6 +7,7 @@ import { tokenSelect } from '../utils/selectors';
 import AccountsModel from '../models/accounts';
 import AccountModel from '../models/account';
 import TransactionsModel from '../models/transactions';
+import CategoriesModel from '../models/categories';
 
 /**
  * The API URL.
@@ -163,4 +164,24 @@ export function useApiTransactions(accountId) {
   }, [])
 
   return transactions;
+}
+
+export function useApiCategories() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await axios.get('/__mocks__/categories.json');
+        const model = new CategoriesModel(res.data);
+        setCategories(model.getCategories);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    getData();
+  }, [])
+
+  return categories;
 }
