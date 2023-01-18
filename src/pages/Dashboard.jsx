@@ -1,31 +1,19 @@
-import AccountBalance from '../components/AccountBalance';
+import AccountBalance from '../components/Account/AccountBalance';
 import { v4 as uuidv4 } from 'uuid';
 import style from './Dashboard.module.scss';
 import { useSelector } from 'react-redux';
 import { userFirstNameSelect, userLastNameSelect } from '../utils/selectors';
-import { useApiUpdateData, useApiUserInfos } from '../hooks/useApi';
+import { useApiAccounts, useApiUpdateData, useApiUserInfos } from '../hooks/useApi';
 import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
-  const accounts = [
-    {
-      title: "Argent Bank Checking (x8349)",
-      amount: "2,082.79",
-      desc: "Available Balance",
-    },
-    {
-      title: "Argent Bank Savings (x6712)",
-      amount: "10,928.42",
-      desc: "Available Balance",
-    },
-    {
-      title: "Argent Bank Credit Card (x8349)",
-      amount: "184.30",
-      desc: "Current Balance",
-    },
-  ];
 
+  // Get accounts list
+  const accounts = useApiAccounts();
+
+  // Get basic user's info
   useApiUserInfos();
+
   const [isEditing, setEditing] = useState(false);
   const [newUserData, setNewUserData] = useState({
     firstName: '',
@@ -38,8 +26,10 @@ export default function Dashboard() {
     lastName: userLastName,
   };
 
+  // Edit form values
   const [formValues, setFormValues] = useState({});
 
+  // Update basic user's info in redux state and database
   useApiUpdateData(newUserData.firstName, newUserData.lastName);
 
   const handleEdit = () => {
@@ -115,12 +105,14 @@ export default function Dashboard() {
         {!isEditing && <button className={style.editButton} onClick={handleEdit}>Edit Name</button>}
       </div>
       <h2 className="sr-only">Accounts</h2>
-      {accounts.map((account) => (
+      {accounts && accounts.map((account) => (
         <AccountBalance
           key={uuidv4()}
-          title={account.title}
-          amount={account.amount}
+          title={account.name}
+          serial={account.serialNumber}
+          amount={account.balance}
           desc={account.desc}
+          id={account.id}
         />
       ))}
     </main>

@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginFailed, loginPending, loginSuccess, setAuth, updateEmail, updateUserData } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { tokenSelect } from '../utils/selectors';
+import AccountsModel from '../models/accounts';
+import AccountModel from '../models/account';
+import TransactionsModel from '../models/transactions';
 
 /**
  * The API URL.
@@ -98,4 +101,66 @@ export function useApiUpdateData(firstName, lastName) {
 
     setData();
   }, [firstName, lastName, dispatch]);
+}
+
+// Get all accounts
+export function useApiAccounts() {
+  const [accounts, setAccounts] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await axios.get('/__mocks__/accounts.json');
+        const model = new AccountsModel(res.data);
+        setAccounts(model.getAll);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    getData();
+  }, [])
+
+  return accounts;
+}
+
+// Get the given account
+export function useApiAccount(id) {
+  const [account, setAccount] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await axios.get('/__mocks__/accounts.json');
+        const model = new AccountModel(Object.values(res.data).find((elem) => elem.id === id));
+        setAccount(model.getAccount);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    getData();
+  }, [])
+
+  return account;
+}
+
+export function useApiTransactions(accountId) {
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await axios.get('/__mocks__/transactions.json');
+        const model = new TransactionsModel(Object.values(res.data).filter((elem) => elem.account === accountId));
+        setTransactions(model.getTransactions);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    getData();
+  }, [])
+
+  return transactions;
 }
