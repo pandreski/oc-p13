@@ -2,20 +2,31 @@ import { useParams } from 'react-router-dom';
 import Collapse from '../components/Account/Collapse';
 import HeadingBanner from '../components/Account/HeadingBanner';
 import { useApiTransactions } from '../hooks/useApi';
+import { v4 as uuidv4 } from 'uuid';
 
-function Account() {
+export default function Account() {
   const { id } = useParams()
 
-  // const accountInfos = useApiAccount(id); // infos de base du compte
-  const transactions = useApiTransactions(id) // toutes les transactions du compte
-  // const categories = useApiCategories(); // toutes les categories
+  // All account's transactions
+  const transactions = useApiTransactions(id);
 
   return (
     <main className="main bg-dark">
       <HeadingBanner id={id} />
-      <Collapse />
+      {
+        transactions.map((transaction) => (
+          <Collapse
+            key={uuidv4()}
+            date={transaction.date}
+            amount={transaction.amount}
+            balance={transaction.balance}
+            label={transaction.description}
+            category={transaction.category}
+            notes={transaction.notes}
+            type={transaction.type}
+          />
+        ))
+      }
     </main>
   );
 }
-
-export default Account;

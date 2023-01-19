@@ -1,6 +1,6 @@
 .wrapper {
   background-color: #fff;
-  border: 1px solid #000;
+  border-top: 1px solid #000;
   width: 80%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -43,14 +43,6 @@
   }
 }
 
-.date {}
-
-.desc {}
-
-.amount {}
-
-.balance {}
-
 .body {
   overflow: hidden;
   max-height: 0;
@@ -67,11 +59,9 @@
   padding: 20px 40px;
 }
 
-.type {}
-
-.category {}
-
-.notes {}
+.editWrapper {
+  display: flex;
+}
 
 .edit {
   border: none;

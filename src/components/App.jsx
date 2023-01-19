@@ -8,13 +8,18 @@ import Login from '../pages/Login';
 import { userLoggedInSelect } from '../utils/selectors';
 import Layout from './Layout';
 import Account from '../pages/Account';
+import { func } from 'prop-types';
 
 export default function App() {
   return (
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={
+          <AnonymousOnly>
+            <Login />
+          </AnonymousOnly>
+        } />
         <Route path='/profile' element={
           <RequireAuth>
             <Dashboard />
@@ -46,6 +51,20 @@ function RequireAuth({ children }) {
   return children;
 }
 
+function AnonymousOnly({ children }) {
+  const isAuthenticated = useSelector(userLoggedInSelect) || localStorage.getItem('jwtToken');
+
+  if (isAuthenticated) {
+    return <Navigate to="/profile" replace />;
+  }
+
+  return children;
+}
+
 RequireAuth.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+AnonymousOnly.propTypes = {
   children: PropTypes.node.isRequired,
 };
