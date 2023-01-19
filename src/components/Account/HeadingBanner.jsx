@@ -2,7 +2,17 @@ import { useApiAccount } from '../../hooks/useApi';
 import PropTypes from 'prop-types';
 import style from './HeadingBanner.module.scss';
 
+/**
+ * Component displaying a banner with the balance's information.
+ * @component
+ * @example
+ * const id = '3'; // Account ID
+ * return (
+ *  <HeadingBanner id={id} />
+ * )
+ */
 export default function HeadingBanner({ id }) {
+  // Get given account's data
   const account = useApiAccount(id);
 
   return (

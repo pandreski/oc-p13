@@ -4,6 +4,29 @@ import PropTypes from 'prop-types';
 import { useApiCategories } from '../../hooks/useApi';
 import style from './Collapse.module.scss';
 
+/**
+ * Component displaying an account's balance preview.
+ * @component
+ * @example
+ * const date = 'May 4th, 2022';
+ * const amount = '123.45';
+ * const balance = '10,455.34';
+ * const label = 'Lorem ipsum';
+ * const category = '2';
+ * const notes = 'Lorem ipsum dolor sit amet...';
+ * const type = 'Electronic';
+ * return (
+ *  <Collapse
+ *    date={date}
+ *    amount={amount}
+ *    balance={balance}
+ *    label={label}
+ *    category={category}
+ *    notes={notes}
+ *    type={type}
+ *   />
+ * )
+ */
 function Collapse({ date, amount, balance, label, category, notes, type }) {
   const [editCategory, setEditCategory] = useState(false);
   const [editNotes, setEditNotes] = useState(false);
@@ -13,6 +36,7 @@ function Collapse({ date, amount, balance, label, category, notes, type }) {
   const [notesText, setNotes] = useState(notes)
   const categories = useApiCategories();
 
+  // Toggle extra-content
   const handleClick = () => {
     setOpen(!isOpen);
 
@@ -23,29 +47,35 @@ function Collapse({ date, amount, balance, label, category, notes, type }) {
     }
   }
 
+  // Define if user is editing the category
   const handleCategory = () => {
     setEditCategory(!editCategory);
   }
 
+  // Controller for category value
   const handleChangeCategory = (e) => {
     e.preventDefault();
     setCategory(e.target.value);
   }
 
+  // Category's form submit handler
   const handleSubmitCategory = (e) => {
     e.preventDefault();
     handleCategory();
   }
 
+  // Define if user is editing the notes
   const handleNotes = () => {
     setEditNotes(!editNotes);
   }
 
+  // Controller for notes value
   const handleChangeNotes = (e) => {
     e.preventDefault();
     setNotes(e.target.value);
   }
 
+  // Notes's form submit handler
   const handleSubmitNotes = (e) => {
     e.preventDefault();
     handleNotes();
@@ -54,6 +84,7 @@ function Collapse({ date, amount, balance, label, category, notes, type }) {
   useEffect(() => {
     if (!categories.length) return;
 
+    // Get active category's label
     const { label } = categories.find((elem) => elem.id === currentCategory);
     setCategoryLabel(label);
   }, [currentCategory, categories])
@@ -112,7 +143,7 @@ function Collapse({ date, amount, balance, label, category, notes, type }) {
               ) : (
                 <div>
                   {notesText}
-                  <button className={style.edit} onClick={handleNotes}><i className='fa fa-pencil'></i></button>    
+                  <button className={style.edit} onClick={handleNotes}><i className='fa fa-pencil'></i></button>
                 </div>
               )
             }

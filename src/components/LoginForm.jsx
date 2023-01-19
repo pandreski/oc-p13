@@ -6,7 +6,14 @@ import { errorMessageSelect, isErrorSelect, isLoadingSelect, userLoggedInSelect 
 import Loader from './Loader';
 import style from './LoginForm.module.scss';
 
-
+/**
+ * Login form component.
+ * @component
+ * @example
+ * return (
+ *  <LoginForm />
+ * )
+ */
 function LoginForm() {
   const [credentials, setCredentials] = useState({});
   const isError = useSelector(isErrorSelect);
@@ -16,12 +23,14 @@ function LoginForm() {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/profile";
 
+  // Setup API authentication process with form's data
   useApiAuth(credentials.email, credentials.password, credentials.persistent);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
+    // Update local state with submitted form's data
     setCredentials({
       email: formData.get('email'),
       password: formData.get('password'),
@@ -29,6 +38,7 @@ function LoginForm() {
     });
   };
 
+  // Redirect user to its previous destination on successful login process
   useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });

@@ -15,6 +15,7 @@ This project is part of the Openclassrooms program "Javascript/React application
 - React 18
 - React router
 - Redux & Redux Toolkit
+- Axios
 - CSS Modules (scss)
 - Eslint
 
@@ -25,6 +26,7 @@ Clone [this project](https://github.com/OpenClassrooms-Student-Center/Project-10
 ## Installation steps (front-end)
 
 1. Clone this project,
-2. Install dependencies with `yarn install`,
-3. Start the project with `yarn dev`,
-4. Open the app with the link given in your terminal.
+2. Duplicate `/.env.example` as `/.env` and define the API URL according to your back-end environment,
+3. Install the dependencies with `yarn install`,
+4. Start the project with `yarn dev`,
+5. Open the app with the link given in your terminal.

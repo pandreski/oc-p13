@@ -2,6 +2,14 @@ import { Link } from 'react-router-dom';
 import illustration from '../assets/images/undraw-not-found.png';
 import style from './Error404.module.scss';
 
+/**
+ * Error page: Not found.
+ * @component
+ * @example
+ * return (
+ *  <Error404 />
+ * )
+ */
 function Error404() {
   return (
     <main className='main'>

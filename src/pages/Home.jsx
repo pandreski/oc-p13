@@ -6,7 +6,15 @@ import chatIcon from '../assets/images/icon-chat.png';
 import moneyIcon from '../assets/images/icon-money.png';
 import securityIcon from '../assets/images/icon-security.png';
 
-function Home() {
+/**
+ * Homepage
+ * @component
+ * @example
+ * return (
+ *  <Home />
+ * )
+ */
+export default function Home() {
   const featuresData = [
     {
       icon: chatIcon,
@@ -42,5 +50,3 @@ function Home() {
     </main>
   );
 }
-
-export default Home;

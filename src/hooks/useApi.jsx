@@ -15,10 +15,20 @@ import CategoriesModel from '../models/categories';
  */
 const apiUrl = import.meta.env.VITE_API_URL;
 
+/**
+ * Axios instance.
+ * @returns {AxiosInstance}
+ */
 const instance = axios.create({
   baseURL: apiUrl,
 });
 
+/**
+ * Hook for API user authentication.
+ * @param {String} email          User's email
+ * @param {String} password       User's password
+ * @param {Boolean} isPersistent  "Remember me" option
+ */
 export function useApiAuth(email, password, isPersistent) {
   const dispatch = useDispatch();
 
@@ -51,6 +61,9 @@ export function useApiAuth(email, password, isPersistent) {
   }, [dispatch, email, password, isPersistent]);
 }
 
+/**
+ * Hook for defining user's info in the redux state.
+ */
 export function useApiUserInfos() {
   const stateToken = useSelector(tokenSelect);
   const token = localStorage.getItem('jwtToken') || stateToken;
@@ -80,6 +93,11 @@ export function useApiUserInfos() {
   }, [token, navigate, dispatch]);
 }
 
+/**
+ * Hook for updating user's info in the redux state.
+ * @param {String} firstName  User's first name
+ * @param {String} lastName   User's last name
+ */
 export function useApiUpdateData(firstName, lastName) {
   const dispatch = useDispatch();
 
@@ -104,7 +122,10 @@ export function useApiUpdateData(firstName, lastName) {
   }, [firstName, lastName, dispatch]);
 }
 
-// Get all accounts
+/**
+ * Hook for getting all accounts info from mocked data.
+ * @returns {Object[]} Accounts
+ */
 export function useApiAccounts() {
   const [accounts, setAccounts] = useState([]);
 
@@ -125,9 +146,13 @@ export function useApiAccounts() {
   return accounts;
 }
 
-// Get the given account
+/**
+ * Hook for getting a specific account info from mocked data.
+ * @param {String} id Account ID
+ * @returns {Object} Account data
+ */
 export function useApiAccount(id) {
-  const [account, setAccount] = useState([]);
+  const [account, setAccount] = useState({});
 
   useEffect(() => {
     async function getData() {
@@ -146,6 +171,11 @@ export function useApiAccount(id) {
   return account;
 }
 
+/**
+ * Hook for getting all transactions from mocked data.
+ * @param {String} accountId Account ID
+ * @returns {Object[]} Transactions list
+ */
 export function useApiTransactions(accountId) {
   const [transactions, setTransactions] = useState([]);
 
@@ -166,6 +196,10 @@ export function useApiTransactions(accountId) {
   return transactions;
 }
 
+/**
+ * Hook for getting all categories from mocked data.
+ * @returns {Object[]} Categories list
+ */
 export function useApiCategories() {
   const [categories, setCategories] = useState([]);
 

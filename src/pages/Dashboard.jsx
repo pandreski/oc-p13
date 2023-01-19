@@ -6,6 +6,15 @@ import { userFirstNameSelect, userLastNameSelect } from '../utils/selectors';
 import { useApiAccounts, useApiUpdateData, useApiUserInfos } from '../hooks/useApi';
 import { useEffect, useState } from 'react';
 
+/**
+ * Dashboard detail page displaying user info and an overview
+ * of all accounts owned by the user.
+ * @component
+ * @example
+ * return (
+ *  <Dashboard />
+ * )
+ */
 export default function Dashboard() {
 
   // Get accounts list
@@ -32,10 +41,12 @@ export default function Dashboard() {
   // Update basic user's info in redux state and database
   useApiUpdateData(newUserData.firstName, newUserData.lastName);
 
+  // Toggle edition mode status.
   const handleEdit = () => {
     setEditing(!isEditing);
   }
 
+  // Controller for user's first name and last name.
   const handleInputChange = (e) => {
     setFormValues({
       ...formValues,
@@ -43,6 +54,7 @@ export default function Dashboard() {
     })
   }
 
+  // Save modifications
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -54,12 +66,14 @@ export default function Dashboard() {
     handleEdit();
   }
 
+  // Discard changes and reset local state values.
   const handleDiscardChanges = () => {
     handleEdit();
     setFormValues(initialState);
   }
 
   useEffect(() => {
+    // Set default data with current user's info.
     setFormValues({
       firstName: userFirstName,
       lastName: userLastName,

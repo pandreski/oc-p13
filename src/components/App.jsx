@@ -8,8 +8,15 @@ import Login from '../pages/Login';
 import { userLoggedInSelect } from '../utils/selectors';
 import Layout from './Layout';
 import Account from '../pages/Account';
-import { func } from 'prop-types';
 
+/**
+ * The main component of the app, including the routing.
+ * @component
+ * @example
+ * return (
+ *  <App />
+ * )
+ */
 export default function App() {
   return (
     <Routes>
@@ -36,21 +43,27 @@ export default function App() {
   )
 }
 
+/**
+ * Check if the user is authenticated or redirect him to the login page.
+ * @param {ReactHTMLElement} children 
+ * @returns {ReactHTMLElement}
+ */
 function RequireAuth({ children }) {
   const isAuthenticated = useSelector(userLoggedInSelect) || localStorage.getItem('jwtToken');
   const location = useLocation();
 
   if (!isAuthenticated) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;
 }
 
+/**
+ * Check if the user is authenticated and redirect him to the profile page instead.
+ * @param {ReactHTMLElement} children 
+ * @returns {ReactHTMLElement}
+ */
 function AnonymousOnly({ children }) {
   const isAuthenticated = useSelector(userLoggedInSelect) || localStorage.getItem('jwtToken');
 

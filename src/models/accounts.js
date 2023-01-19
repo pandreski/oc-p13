@@ -4,7 +4,7 @@
  *
  * @constructor
  *
- * @property data  the json data list
+ * @property accounts  the json data list
  * */
 export default class AccountsModel {
   constructor(data) {

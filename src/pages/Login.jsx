@@ -1,11 +1,17 @@
 import LoginForm from '../components/LoginForm';
 
-function Login() {
+/**
+ * Login page
+ * @component
+ * @example
+ * return (
+ *  <Login />
+ * )
+ */
+export default function Login() {
   return (
     <main className="main bg-dark">
       <LoginForm />
     </main>
   );
 }
-
-export default Login;

@@ -1,6 +1,14 @@
 import bannerImage from '../assets/images/bank-tree.jpeg';
 import style from './HeroBanner.module.scss';
 
+/**
+ * Banner component with image background.
+ * @component
+ * @example
+ * return (
+ *  <HeroBanner />
+ * )
+ */
 function HeroBanner() {
   return (
     <div className={style.hero}>

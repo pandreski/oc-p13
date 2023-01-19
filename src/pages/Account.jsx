@@ -4,6 +4,14 @@ import HeadingBanner from '../components/Account/HeadingBanner';
 import { useApiTransactions } from '../hooks/useApi';
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * Account detail page displaying all transactions made in it.
+ * @component
+ * @example
+ * return (
+ *  <Account />
+ * )
+ */
 export default function Account() {
   const { id } = useParams()
 

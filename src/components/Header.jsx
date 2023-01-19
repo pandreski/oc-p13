@@ -6,15 +6,24 @@ import { userFirstNameSelect, userLoggedInSelect } from '../utils/selectors';
 import { logout } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Component displaying the header.
+ * @component
+ * @example
+ * return (
+ *  <Header />
+ * )
+ */
 function Header() {
   const isAuthenticated = useSelector(userLoggedInSelect);
   const userFirstName = useSelector(userFirstNameSelect);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleClick = (e) => {
+  const handleLogout = (e) => {
     e.preventDefault();
 
+    // Setup logout action
     dispatch(logout());
     localStorage.removeItem('jwtToken');
     navigate('/');
@@ -34,7 +43,7 @@ function Header() {
                 <Link to='/profile' className={style.mainNavItem}>
                   <i className="fa fa-user-circle"></i> {userFirstName}
                 </Link>
-                <Link onClick={handleClick} className={style.mainNavItem}>
+                <Link onClick={handleLogout} className={style.mainNavItem}>
                   <i className="fa fa-sign-out"></i> Sign Out
                 </Link>
               </>
